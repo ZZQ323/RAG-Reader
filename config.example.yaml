@@ -1,0 +1,18 @@
+# RAG-Reader 配置文件
+
+# Obsidian vault 路径
+vaultPath: ~/obsidian-vault
+
+# 索引数据库路径
+dbPath: ~/.rag-reader/index.db
+
+# 切分参数
+chunkSize: 500        # 每个 chunk 的最大字符数
+chunkOverlap: 50      # chunk 之间的重叠字符数
+
+# Embedding 维度（AllMiniLmL6V2 = 384）
+embeddingDimension: 384
+
+# MCP Server 配置
+mcpHost: 127.0.0.1
+mcpPort: 8080
