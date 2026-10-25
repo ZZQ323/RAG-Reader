@@ -131,32 +131,43 @@
 
 ## 五、功能清单
 
-### Phase 1：Vault RAG 基础（2 周）
+### Phase 1：Vault RAG 基础（2 周）✅ 已完成
 
 **目标**：Obsidian vault 可被语义搜索
 
+**状态**：代码实现完成（2026-10-24）
+
 **功能**：
-- [ ] F1.1 Obsidian-aware 切分器
+- [x] F1.1 Obsidian-aware 切分器
   - 按 heading 层级切分
   - 保留 frontmatter（type/tags/source）
   - 保留 wikilink（[[原文]]）
   - 保留代码块和 LaTeX
-- [ ] F1.2 摄入管道
+  - **实现**：`ObsidianMarkdownChunker.java`
+- [x] F1.2 摄入管道
   - 扫描 vault 目录
-  - 增量索引（基于 mtime + content hash）
-  - 调用 embedding 模型（本地 ONNX 或 Ollama）
-  - 写入 Milvus/pgvector
-- [ ] F1.3 MCP Server
+  - 增量索引（基于 content hash）
+  - 调用 embedding 模型（本地 ONNX AllMiniLmL6V2）
+  - 写入向量库（InMemoryEmbeddingStore，可切换 Milvus）
+  - **实现**：`VaultIngestor.java`, `NoteEmbeddingStore.java`
+- [x] F1.3 MCP Server
   - `search_notes(query, limit)`：语义搜索
   - `get_note(path)`：读取笔记
-  - `list_notes(tag?, type?)`：列出笔记
-- [ ] F1.4 文件监听
+  - `list_notes()`：列出笔记
+  - **实现**：`McpServer.java`（HTTP JSON-RPC）
+- [x] F1.4 文件监听
   - 监听 vault 目录变化
   - 自动触发增量索引
+  - **实现**：`VaultWatcher.java`（directory-watcher）
 
 **验收标准**：
-- 新写入的 markdown 在 2 秒内被索引
-- 问"关于 Agent 设计模式我之前读过什么"能返回相关笔记
+- [ ] 新写入的 markdown 在 2 秒内被索引（待验证）
+- [ ] 问"关于 Agent 设计模式我之前读过什么"能返回相关笔记（待验证）
+
+**待办**：
+1. 本地环境编译：`mvn clean package`
+2. 创建测试 vault 并运行
+3. 在 AI 客户端中配置 MCP 并测试
 
 ---
 
